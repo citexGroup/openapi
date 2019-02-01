@@ -11,7 +11,7 @@ The interface is used to obtain the markets information from CITEX. e.g. eth/usd
 ## 3. URL
 
 ``` 
-Url:            https://api.citex.co.kr/v1/markets/cmc/ticker
+Url:            https://api.citex.co.kr/v1/markets/coingecko/ticker
 Method:         GET
 
 ```
