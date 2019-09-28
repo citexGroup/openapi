@@ -1,146 +1,101 @@
-# Public Rest API for Citex
+# Interface of CITEX markets
 
-# General API Information
-* The base endpoint is: "https://api.citex.co.kr/v1".
-* All endpoints return either a JSON object.
-* Any endpoint can return Empty list which cause request FAILED.
-```javascript
-[]
+## 1. Version
+Version | Time |   Remark
+-- | -- |   --
+0.1 | 2019-01-26
+
+## 2. Description
+The interface is used to obtain the markets information from CITEX. e.g. eth/usdt, eth/btc etc
+
+## 3. URL
+
+``` 
+Url:            https://api.citex.co.kr/v1/markets/common/ticker
+Method:         GET
+
 ```
-* For `GET` endpoints, parameters must be sent as a `string` or `int`.
+### Headers
 
-# LIMITS
-* All API request rate limit is `1 time/sec`. It will cause request failed if request more than 1 time/sec. `Suggestion:` Every time to request, make sure the response include right data.
+``` 
 
-# OUTLOOK
+```
+### Request:
 
-[Public API Endpoints](#public-api-endpoints)
-
-    1.Fetch Exchange Infomation
-    2.Fetch Tickers Data
-    3.Fetch Orderbook Data
-    4.Fetch Historical Trades Data
-    5.Fetch Candelstick Data
+ Param                  |     Type        |Mandatory|          Description         
+------------ |     -------------|--|         -----------
+nil|nil|nil|nil
 
 
-# Public API Endpoints
-## 1. Fetch Exchange Infomation
-* `Request` 
+## 4. Response：
+### Parameters
+ Param                      |     Type        |        Description   
+ ------------ |-------------|-----------
+ lastPrice|string|The latest price
+ volume|string|Volume
+ high|string|24h Highest price
+ low|string|24h Lowest price
+ amount|string|Amount
+ ratio|string|Rate of up/down
+ tradeUrl|string|Trade url
+ baseAssetLogo|string|Base currency logo
+ baseAsset|string|Base currency
+ baseAssetName|string|Base currency name
+ quoteAsset|string|Quote currency
+ quoteAssetName|string|Quote currency name
 
-   GET /exchangeInfo
-* `Response` 
-```javascript
+
+### Headers
+
+``` 
+Content-Type:   Application/Json
+```
+
+### Successful：
+HTTP/1.1 200 OK
+```
 [
     {
-        'symbol': 'eth_btc', 
-        'status': 'trading', 
-        'baseAsset': 'eth', 
-        'baseAssetPrecision': 3, 
-        'quoteAsset': 'btc', 
-        'quoteAssetPrecision': 6
-     }
-     ...
-]     
-```
-* `status`:Contract status. (trading:can trade. stopping:cannot trade)
-
-## 2.	Fetch Tickers Data
-* `Request` 
-
-   GET /alltickers
-* `Response` 
-```javascript
-{
-    'timestamp': 1569493791387, 
-    'ticker': 
-            [
-                {
-                    'symbol': 'eth_btc', 
-                    'high': '0.020454', 
-                    'vol': '69465.54', 
-                    'last': '0.02018', 
-                    'low': '0.01984', 
-                    'buy': '0.019884', 
-                    'sell': '0.020454'
-                }
-                ...
-            ]
-}
-```
-* `vol`: trading volume starting at 00:00 utc-8.
-
-## 3.	Fetch Orderbook Data
-* `Request` 
-
-   GET /depth
-* `Param` 
-
-   String symbol : eth_btc
-   
-   Int size : Not required, default 50, max 50
-   
-* `Response` 
-```javascript
-{
-    'asks': 
-            [
-                ['0.020893', '0.068'],
-                ...
-            ],
-    'bids': [
-                ['0.020277', '2.8'],
-                ...
-            ]
-}
-```
-* `symbol`:symbol name
-* `bids`:max 50 bids, order by desc
-* `asks`:max 50 asks, order by asc
-
-## 4.	Fetch Historical Trades Data
-* `Request` 
-
-   GET /api/v1/common/allticker
-* `Param` 
-
-   String symbol : eth_btc
-   
-   Int size : Not required, default 50, max 50
-   
-* `Response` 
-```javascript
-[
-    {
-        'timestamp': 1569551029905621, 
-        'price': '0.020627', 
-        'amount': '0.07', 
-        'side': 'buy'
+        "volume": "0",
+        "quoteAssetName": "USDT",
+        "high": "0",
+        "amount": "0",
+        "low": "0",
+        "baseAssetLogo": "https://citex-public.oss-cn-hongkong.aliyuncs.com/images/token-logo/eth.png",
+        "baseAssetName": "ETH",
+        "baseAsset": "eth",
+        "tradeUrl": "https://www.citex.co.kr/#/trade/3/16",
+        "quoteAsset": "usdt",
+        "lastPrice": "0",
+        "ratio": "0.0000"
     },
-    ...
+    {
+        "volume": "0",
+        "quoteAssetName": "USDT",
+        "high": "0",
+        "amount": "0",
+        "low": "0",
+        "baseAssetLogo": "https://citex-public.oss-cn-hongkong.aliyuncs.com/images/token-logo/btc.png",
+        "baseAssetName": "BTC",
+        "baseAsset": "btc",
+        "tradeUrl": "https://www.citex.co.kr/#/trade/3/21",
+        "quoteAsset": "usdt",
+        "lastPrice": "0",
+        "ratio": "0.0000"
+    },
+    {
+        "volume": "11700",
+        "quoteAssetName": "ETH",
+        "high": "0.00006477",
+        "amount": "0.757809",
+        "low": "0.00006477",
+        "baseAssetLogo": "https://citex-public.oss-cn-hongkong.aliyuncs.com/images/token-logo/ctt.png",
+        "baseAssetName": "CTT",
+        "baseAsset": "ctt",
+        "tradeUrl": "https://www.citex.co.kr/#/trade/1/25",
+        "quoteAsset": "eth",
+        "lastPrice": "0.00006477",
+        "ratio": "0.0000"
+    }
 ]
 ```
-* `Order`:The first record is the the most recent trade.
-
-## 5.	Fetch Candelstick Data
-* `Request` 
-
-   GET /mapi/quot/queryCandlestick
-* `Param` 
-
-   String symbol : eth_btc
-   
-   Int type : Not required, default 1(1min). (1,3,5,15,30,60,120,240,360,1440)
-   
-   Int size : Not required, default 10, no limit
-   
-* `Response` 
-```javascript
-[
-    [
-        1569551400000, '0.020611', '0.020625', '0.020611', '0.020616', '29.804'
-    ]
-    ...
-]
-```
-* Every list:timestamp, open, high, low, close, volume
-* The first record in lists is the most recent data
